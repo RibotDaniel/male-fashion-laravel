@@ -9,7 +9,7 @@
         <div style="width: 60px; height: 3px; background-color: #e53637; margin: 10px auto 0;"></div>
     </div>
 
-    <!-- Alerta de Éxito al agregar producto -->
+    <!-- Alerta de Éxito -->
     @if(session('success'))
         <div class="alert alert-success rounded-0 mb-4">
             {{ session('success') }}
@@ -27,10 +27,12 @@
                 <div class="card-body bg-light">
                     <form action="{{ url('/productos') }}" method="POST">
                         @csrf
+                        
+                        <!-- Nombre, Precio, Imagen -->
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label class="font-weight-bold text-dark small">Nombre de la Prenda:</label>
-                                <input type="text" name="nombre" class="form-control rounded-0" placeholder="Ej. Playera Resident Evil 2 XXL" required>
+                                <input type="text" name="nombre" class="form-control rounded-0" placeholder="Ej. Playera Resident Evil 2" required>
                             </div>
                             <div class="form-group col-md-3">
                                 <label class="font-weight-bold text-dark small">Precio ($ MXN):</label>
@@ -41,7 +43,51 @@
                                 <input type="text" name="imagen" class="form-control rounded-0" placeholder="https://enlace-de-imagen.com/foto.jpg" required>
                             </div>
                         </div>
-                        <div class="text-right mt-2">
+
+                        <!-- Inventario por Tallas -->
+                        <div class="form-row mt-2">
+                            <div class="col-12 mb-2">
+                                <label class="font-weight-bold text-dark small">Tallas Disponibles e Inventario (Cantidad):</label>
+                            </div>
+
+                            <div class="form-group col-6 col-md-3">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-danger text-white font-weight-bold rounded-0">S</span>
+                                    </div>
+                                    <input type="number" name="stock_s" class="form-control rounded-0" min="0" value="0">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-6 col-md-3">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-danger text-white font-weight-bold rounded-0">M</span>
+                                    </div>
+                                    <input type="number" name="stock_m" class="form-control rounded-0" min="0" value="0">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-6 col-md-3">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-danger text-white font-weight-bold rounded-0">L</span>
+                                    </div>
+                                    <input type="number" name="stock_l" class="form-control rounded-0" min="0" value="0">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-6 col-md-3">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-danger text-white font-weight-bold rounded-0">XL</span>
+                                    </div>
+                                    <input type="number" name="stock_xl" class="form-control rounded-0" min="0" value="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-right mt-3">
                             <button type="submit" class="btn btn-danger rounded-0 text-uppercase font-weight-bold px-4" style="font-size: 12px; letter-spacing: 1px;">
                                 Guardar Prenda en Catálogo
                             </button>
@@ -52,7 +98,7 @@
         @endif
     @endauth
 
-    <!-- Filtros / Contador de Productos -->
+    <!-- Catálogo de Productos -->
     <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
         <span class="text-muted">Mostrando catálogo disponible ({{ count($productos) }} productos)</span>
         <div>
@@ -64,22 +110,33 @@
         </div>
     </div>
 
-    <!-- Grid Adaptativo con Datos de la Base de Datos -->
+    <!-- Grid de Catálogo -->
     <div class="row">
         @forelse($productos as $item)
             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mb-4">
                 <div class="card h-100 border-0 shadow-sm rounded-0 product-card">
-                    <div class="position-relative overflow-hidden">
+                    <a href="{{ url('/productos/' . $item->id) }}" class="position-relative overflow-hidden d-block">
                         <img src="{{ $item->imagen }}" class="card-img-top rounded-0" alt="{{ $item->nombre }}" style="height: 280px; object-fit: cover;">
-                    </div>
+                    </a>
+
                     <div class="card-body text-center d-flex flex-column justify-content-between p-3">
                         <div>
-                            <h6 class="font-weight-bold mb-1 text-dark">{{ $item->nombre }}</h6>
+                            <a href="{{ url('/productos/' . $item->id) }}" class="text-dark text-decoration-none">
+                                <h6 class="font-weight-bold mb-1 text-dark">{{ $item->nombre }}</h6>
+                            </a>
                             <p class="font-weight-bold text-danger mb-2">${{ number_format($item->precio, 2) }} MXN</p>
+                            
+                            <div class="mb-2">
+                                @if(($item->stock_s ?? 0) > 0) <span class="badge badge-light border">S</span> @endif
+                                @if(($item->stock_m ?? 0) > 0) <span class="badge badge-light border">M</span> @endif
+                                @if(($item->stock_l ?? 0) > 0) <span class="badge badge-light border">L</span> @endif
+                                @if(($item->stock_xl ?? 0) > 0) <span class="badge badge-light border">XL</span> @endif
+                            </div>
                         </div>
-                        <button class="btn btn-dark btn-block rounded-0 text-uppercase font-weight-bold" style="font-size: 11px; letter-spacing: 1px;">
-                            <i class="fa fa-shopping-cart mr-1"></i> Agregar al carrito
-                        </button>
+
+                        <a href="{{ url('/productos/' . $item->id) }}" class="btn btn-dark btn-block rounded-0 text-uppercase font-weight-bold" style="font-size: 11px; letter-spacing: 1px;">
+                            <i class="fa fa-eye mr-1"></i> Ver Detalle
+                        </a>
                     </div>
                 </div>
             </div>

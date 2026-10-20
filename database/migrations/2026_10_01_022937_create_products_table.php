@@ -17,6 +17,11 @@ return new class extends Migration
             $table->decimal('precio', 8, 2);
             $table->text('imagen');
             $table->string('categoria')->default('ropa');
+            // Campos de inventario por talla
+            $table->integer('stock_s')->default(0);
+            $table->integer('stock_m')->default(0);
+            $table->integer('stock_l')->default(0);
+            $table->integer('stock_xl')->default(0);
             $table->timestamps();
         });
     }
