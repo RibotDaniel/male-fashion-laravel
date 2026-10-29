@@ -7,7 +7,6 @@ use App\Models\Product;
 
 class FavoriteController extends Controller
 {
-    // Agregar / Guardar en Favoritos
     public function add(Request $request)
     {
         $product = Product::findOrFail($request->product_id);
@@ -26,7 +25,6 @@ class FavoriteController extends Controller
         return redirect()->back()->with('open_favorites', true)->with('success', '¡Guardado en Favoritos!');
     }
 
-    // Quitar de Favoritos
     public function remove(Request $request)
     {
         $favorites = session()->get('favorites', []);
@@ -38,7 +36,6 @@ class FavoriteController extends Controller
         return redirect()->back()->with('open_favorites', true)->with('success', 'Eliminado de Favoritos.');
     }
 
-    // Mover de Favoritos al Carrito
     public function moveToCart(Request $request)
     {
         $product = Product::findOrFail($request->product_id);

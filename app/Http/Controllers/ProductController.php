@@ -7,14 +7,12 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    // Muestra las prendas guardadas en la base de datos
     public function indexRopa()
     {
         $productos = Product::where('categoria', 'ropa')->get();
         return view('ropa', compact('productos'));
     }
 
-    // Guarda una nueva prenda desde el panel de admin
     public function store(Request $request)
     {
         $request->validate([
@@ -41,14 +39,12 @@ class ProductController extends Controller
         return redirect()->back()->with('success', '¡Prenda agregada al catálogo exitosamente!');
     }
 
-    // Muestra la vista de detalle de una sola prenda
     public function show($id)
     {
         $producto = Product::findOrFail($id);
         return view('detalle', compact('producto'));
     }
 
-    // Actualiza los datos de la prenda (Solo Admin)
     public function update(Request $request, $id)
     {
         $producto = Product::findOrFail($id);
@@ -76,7 +72,6 @@ class ProductController extends Controller
         return redirect()->back()->with('success', '¡Producto actualizado con éxito!');
     }
 
-    // Elimina la prenda del catálogo (Solo Admin)
     public function destroy($id)
     {
         $producto = Product::findOrFail($id);

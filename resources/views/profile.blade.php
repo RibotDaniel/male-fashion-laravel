@@ -63,11 +63,10 @@
             <nav>
                 <a href="{{ url('/') }}" class="nav-link-custom">Inicio</a>
                 <a href="{{ url('/tienda') }}" class="nav-link-custom">Tienda</a>
-                <a href="#" class="nav-link-custom">Contacto</a>
+                <a href="{{ url('/contacto') }}" class="nav-link-custom">Contacto</a>
             </nav>
             <div>
-                <i class="fa fa-heart-o mr-3"></i>
-                <i class="fa fa-shopping-bag"></i> <strong>$0.00</strong>
+                <!-- Iconos de carrito y corazón eliminados con éxito -->
             </div>
         </div>
     </div>
@@ -140,7 +139,7 @@
                 </div>
             </div>
 
-            <!-- Tabla de Pedidos -->
+            <!-- Tabla de Pedidos (Exclusiva de Mi Cuenta con caducidad de 1 semana) -->
             <div class="col-lg-6 mb-4">
                 <div class="card shadow-sm border-0 rounded-0">
                     <div class="card-header bg-dark text-white p-3 border-0">
@@ -174,7 +173,7 @@
                                     @else
                                         <tr>
                                             <td colspan="4" class="text-center text-muted py-3">
-                                                No tienes pedidos registrados todavía.
+                                                No tienes pedidos registrados todavía. (Los pedidos se eliminan automáticamente después de 1 semana).
                                             </td>
                                         </tr>
                                     @endif

@@ -101,10 +101,34 @@
 
 <body>
     @php
-        $cart = session('cart', []);
-        $favorites = session('favorites', []);
+        $cart = [];
         $cartTotal = 0;
         $cartCount = 0;
+
+        if (Auth::check()) {
+            // Cargar carrito del usuario autenticado desde la Base de Datos
+            $dbCart = \App\Models\CartItem::with('product')->where('user_id', Auth::id())->get();
+            foreach($dbCart as $item) {
+                if ($item->product) {
+                    $key = $item->product_id . '_' . $item->talla;
+                    $cart[$key] = [
+                        'cart_item_id' => $item->id,
+                        'id'           => $item->product_id,
+                        'nombre'       => $item->product->nombre,
+                        'precio'       => $item->product->precio,
+                        'imagen'       => $item->product->imagen,
+                        'talla'        => $item->talla,
+                        'cantidad'     => $item->cantidad,
+                    ];
+                }
+            }
+        } else {
+            // Cargar carrito del invitado desde la Sesión
+            $cart = session('cart', []);
+        }
+
+        $favorites = session('favorites', []);
+
         foreach($cart as $item) {
             $cartTotal += $item['precio'] * $item['cantidad'];
             $cartCount += $item['cantidad'];
@@ -155,7 +179,7 @@
                         <ul>
                             <li><a href="{{ url('/') }}">Inicio</a></li>
                             <li><a href="{{ url('/tienda') }}">Tienda</a></li>
-                            <li><a href="#">Contacto</a></li>
+                            <li><a href="{{ url('/contacto') }}">Contacto</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -206,7 +230,11 @@
                     <!-- QUITAR DEL CARRITO (X) -->
                     <form action="{{ route('cart.remove') }}" method="POST">
                         @csrf
-                        <input type="hidden" name="item_key" value="{{ $key }}">
+                        @if(isset($item['cart_item_id']))
+                            <input type="hidden" name="cart_item_id" value="{{ $item['cart_item_id'] }}">
+                        @else
+                            <input type="hidden" name="item_key" value="{{ $key }}">
+                        @endif
                         <button type="submit" class="btn btn-sm btn-outline-danger border-0 font-weight-bold" title="Quitar">
                             <i class="fa fa-times text-danger" style="font-size: 1.2rem;"></i>
                         </button>
@@ -225,7 +253,7 @@
                     <span>Total:</span>
                     <span class="text-danger">${{ number_format($cartTotal, 2) }} MXN</span>
                 </div>
-                <!-- ENLACE DIRECTO A LA PANTALLA DE CHECKOUT -->
+                <!-- ENLACE A CHECKOUT (PROTÉGIDO POR MIDDLEWARE AUTH) -->
                 <a href="{{ route('checkout.index') }}" class="btn btn-danger btn-block rounded-0 text-uppercase font-weight-bold py-2 text-center text-white" style="text-decoration: none;">
                     Comprar / Finalizar Pedido
                 </a>

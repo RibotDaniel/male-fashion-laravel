@@ -66,3 +66,14 @@ use App\Http\Controllers\CheckoutController;
 // Rutas del Checkout / Proceso de Pago
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 Route::post('/checkout/procesar', [CheckoutController::class, 'process'])->name('checkout.process');
+
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/checkout/procesar', [CheckoutController::class, 'process'])->name('checkout.process');
+});
+
+Route::get('/contacto', function () {
+    return view('contacto');
+});
