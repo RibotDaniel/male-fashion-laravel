@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\Order; // <-- 1. Importar el modelo Order
-use Carbon\Carbon;    // <-- 2. Importar Carbon para los 7 días
 
 class ProfileController extends Controller
 {
@@ -18,15 +17,12 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        // 3. Eliminar automáticamente los pedidos con más de 7 días
-        Order::where('user_id', Auth::id())
-            ->where('created_at', '<', Carbon::now()->subDays(7))
-            ->delete();
+        // YA NO ELIMINAMOS NADA. Los pedidos se quedan guardados permanentemente.
 
-        // 4. Obtener los pedidos vigentes del usuario actual
+        // Obtener todos los pedidos del usuario actual ordenados del más reciente al más antiguo
         $orders = Order::where('user_id', Auth::id())->latest()->get();
 
-        // 5. Retornar tu vista 'profile' pasando los pedidos y el usuario
+        // Retornar tu vista 'profile' pasando los pedidos y el usuario
         return view('profile', [
             'user' => $request->user(),
             'orders' => $orders,

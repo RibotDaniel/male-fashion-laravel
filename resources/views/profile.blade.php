@@ -139,7 +139,7 @@
                 </div>
             </div>
 
-            <!-- Tabla de Pedidos (Exclusiva de Mi Cuenta con caducidad de 1 semana) -->
+            <!-- Tabla de Pedidos Permanente -->
             <div class="col-lg-6 mb-4">
                 <div class="card shadow-sm border-0 rounded-0">
                     <div class="card-header bg-dark text-white p-3 border-0">
@@ -157,26 +157,20 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if(Auth::check() && (Auth::user()->email === 'admin@gmail.com' || Auth::user()->id === 1))
+                                    @forelse($orders as $order)
                                         <tr>
-                                            <td class="font-weight-bold">#ORD-1001</td>
-                                            <td>21/09/2026</td>
-                                            <td>$899.00</td>
-                                            <td><span class="badge badge-success">Completado</span></td>
+                                            <td class="font-weight-bold">#ORD-{{ $order->id }}</td>
+                                            <td>{{ $order->created_at->format('d/m/Y') }}</td>
+                                            <td>${{ number_format($order->total, 2) }} MXN</td>
+                                            <td><span class="badge badge-success">{{ $order->status ?? $order->estado ?? 'Completado' }}</span></td>
                                         </tr>
-                                        <tr>
-                                            <td class="font-weight-bold">#ORD-1002</td>
-                                            <td>21/09/2026</td>
-                                            <td>$1,450.00</td>
-                                            <td><span class="badge badge-warning">En camino</span></td>
-                                        </tr>
-                                    @else
+                                    @empty
                                         <tr>
                                             <td colspan="4" class="text-center text-muted py-3">
-                                                No tienes pedidos registrados todavía. (Los pedidos se eliminan automáticamente después de 1 semana).
+                                                No tienes pedidos registrados todavía.
                                             </td>
                                         </tr>
-                                    @endif
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>

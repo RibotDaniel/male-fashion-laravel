@@ -91,17 +91,20 @@
                         <button type="submit" class="btn btn-danger btn-lg rounded-0 text-uppercase font-weight-bold flex-grow-1 mr-2" style="font-size: 14px; letter-spacing: 1px;">
                             <i class="fa fa-shopping-bag mr-2"></i> Agregar al Carrito
                         </button>
+                    </div>
                 </form>
 
                 <!-- BOTÓN AGREGAR A FAVORITOS -->
-                <form action="{{ route('favorite.add') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="product_id" value="{{ $producto->id }}">
-                    <button type="submit" class="btn btn-outline-danger btn-lg rounded-0 px-4" title="Guardar en Favoritos">
-                        <i class="fa fa-heart"></i>
-                    </button>
-                </form>
-                    </div>
+                <div class="mt-3">
+                    <form action="{{ route('favorite.add') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $producto->id }}">
+                        <button type="submit" class="btn btn-outline-danger btn-lg rounded-0 px-4" title="Guardar en Favoritos">
+                            <i class="fa fa-heart"></i>
+                        </button>
+                    </form>
+                </div>
+
             </div>
         </div>
     </div>
@@ -162,17 +165,20 @@
                             <button type="submit" class="btn btn-success rounded-0 text-uppercase font-weight-bold">
                                 <i class="fa fa-save mr-1"></i> Guardar Cambios
                             </button>
+                        </div>
                     </form>
 
                     <!-- Formulario de Eliminación (DELETE) -->
-                    <form action="{{ url('/productos/' . $producto->id) }}" method="POST" onsubmit="return confirm('¿Seguro que deseas eliminar esta prenda?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-outline-danger rounded-0 text-uppercase font-weight-bold">
-                            <i class="fa fa-trash mr-1"></i> Eliminar Prenda
-                        </button>
-                    </form>
-                        </div>
+                    <div class="mt-3">
+                        <form action="{{ url('/productos/' . $producto->id) }}" method="POST" onsubmit="return confirm('¿Seguro que deseas eliminar esta prenda?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-outline-danger rounded-0 text-uppercase font-weight-bold">
+                                <i class="fa fa-trash mr-1"></i> Eliminar Prenda
+                            </button>
+                        </form>
+                    </div>
+
                 </div>
             </div>
         @endif

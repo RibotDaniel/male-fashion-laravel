@@ -18,5 +18,10 @@ class Product extends Model
         'stock_m',
         'stock_l',
         'stock_xl',
+        'stock_26',
+        'stock_27',
+        'stock_28',
+        'stock_29',
+        'stock',
     ];
 }

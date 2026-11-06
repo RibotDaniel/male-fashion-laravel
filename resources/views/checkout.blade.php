@@ -91,7 +91,7 @@
 
             </div>
 
-            <!-- COLUMNA DERECHA: CUADRO DE PRODUCTOS Y TOTAL (Coincide con el recuadro "Productos" del boceto) -->
+            <!-- COLUMNA DERECHA: CUADRO DE PRODUCTOS Y TOTAL -->
             <div class="col-lg-5">
                 <div class="bg-white p-4 border shadow-sm sticky-top" style="top: 20px;">
                     <h5 class="font-weight-bold text-dark border-bottom pb-3 mb-4">
