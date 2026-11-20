@@ -16,6 +16,16 @@
         </div>
     @endif
 
+    @if($errors->any())
+        <div class="alert alert-danger rounded-0 mb-4">
+            <ul class="mb-0">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <!-- Panel de Administración (SOLO VISIBLE PARA ADMINISTRADORES) -->
     @auth
         @if(Auth::user()->is_admin || Auth::user()->email === 'admin@gmail.com')
@@ -27,6 +37,7 @@
                 <div class="card-body bg-light">
                     <form action="{{ url('/productos') }}" method="POST">
                         @csrf
+                        <input type="hidden" name="categoria" value="ropa">
                         
                         <!-- Nombre, Precio, Imagen -->
                         <div class="form-row">
