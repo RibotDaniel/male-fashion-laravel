@@ -12,7 +12,7 @@
                                 <h6 style="color: #ff4d4d; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;">Colección de Verano</h6>
                                 <h2 style="color: #ffffff; font-weight: 800; font-size: 48px; margin-top: 10px; line-height: 1.2;">Colección Otoño - Invierno 2026</h2>
                                 <p style="color: #f1f1f1; font-size: 16px; margin-bottom: 25px; font-weight: 500;">Ropa de calidad superior hecha de forma ética y con atención al detalle.</p>
-                                <a href="#" class="primary-btn">Comprar ahora <span class="arrow_right"></span></a>
+                                <a href="{{ url('/tienda') }}" class="primary-btn">Comprar ahora <span class="arrow_right"></span></a>
                             </div>
                         </div>
                     </div>
@@ -33,7 +33,7 @@
                         </div>
                         <div class="banner__item__text">
                             <h2>Colecciones de Ropa</h2>
-                            <a href="#">Comprar ahora</a>
+                            <a href="{{ url('/ropa') }}">Comprar ahora</a>
                         </div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                         </div>
                         <div class="banner__item__text">
                             <h2>Accesorios</h2>
-                            <a href="#">Comprar ahora</a>
+                            <a href="{{ url('/accesorios') }}">Comprar ahora</a>
                         </div>
                     </div>
                 </div>
@@ -55,7 +55,7 @@
                         </div>
                         <div class="banner__item__text">
                             <h2>Calzado</h2>
-                            <a href="#">Comprar ahora</a>
+                            <a href="{{ url('/calzado') }}">Comprar ahora</a>
                         </div>
                     </div>
                 </div>
